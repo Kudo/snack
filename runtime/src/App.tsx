@@ -28,6 +28,19 @@ import UpdateIndicator from './UpdateIndicator';
 const API_SERVER_URL_STAGING = 'https://staging.exp.host';
 const API_SERVER_URL_PROD = 'https://exp.host';
 
+type Props = {
+  /**
+   * The Snack URL it should load instead of showing a barcode scanner.
+   * URLs can have a specific format:
+   *   > `(exp|https)://exp.host/{owner}/{snackName}+{snackSessionId}`
+   * 
+   * Some examples are:
+   *   - exp://exp.host/@bycedric/great-bagel+REEOUkskIw
+   *   - https://exp.host/@bycedric/great-pancake+QEeOWWsQIw
+   */
+  snackUrl?: string;
+};
+
 type State = {
   initialLoad: boolean;
   initialURL: string;
@@ -46,7 +59,7 @@ const ONE_MINUTE = 1000 * 60;
 
 // The root component for Snack's viewer. Allows scanning a barcode to identify a Snack, listens for
 // updates and displays the Snack.
-export default class App extends React.Component<object, State> {
+export default class App extends React.Component<Props, State> {
   state: State = {
     initialLoad: true,
     initialURL: '',
@@ -102,7 +115,7 @@ export default class App extends React.Component<object, State> {
     let initialURL: string | null = null;
     try {
       // Open from the initial URL if given
-      initialURL = EXDevLauncher.manifestURL ?? (await Linking.getInitialURL());
+      initialURL = this.props.snackUrl ?? EXDevLauncher.manifestURL ?? (await Linking.getInitialURL());
 
       if (!initialURL) {
         // Check for any stored URLs for reload
