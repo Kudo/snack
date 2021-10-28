@@ -3,9 +3,14 @@
   "version": "0.0.0-alpha.1",
   "description": "Playground for Expo!",
   "author": "exponent.team@gmail.com",
-  "private": true,
-  "main": "index.js",
-  "owner": "exponent",
+  "main": "App.tsx",
+  "files": [
+    "patches",
+    "src",
+    "types",
+    "vendor",
+    "App.tsx"
+  ],
   "scripts": {
     "start": "expo start",
     "web": "expo start --web",
