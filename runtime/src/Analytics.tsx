@@ -4,9 +4,7 @@ import Constants from 'expo-constants';
 
 import Amplitude from './NativeModules/Amplitude';
 
-const AMPLITUDE_KEY = '3b373bbc96d76a58d5efe2b73118a96e';
-
-Amplitude.initializeAsync(AMPLITUDE_KEY);
+// Amplitude.initializeAsync(AMPLITUDE_KEY);
 
 let loggedReceivedFirstCode = false;
 
