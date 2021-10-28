@@ -1,6 +1,6 @@
 {
-  "name": "snack",
-  "version": "0.0.0",
+  "name": "snack-runtime",
+  "version": "0.0.0-alpha.1",
   "description": "Playground for Expo!",
   "author": "exponent.team@gmail.com",
   "private": true,
