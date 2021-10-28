@@ -1,10 +1,11 @@
 {
   "name": "snack-runtime",
-  "version": "0.0.0-alpha.2",
+  "version": "0.0.0-alpha.3",
   "description": "Playground for Expo!",
   "author": "exponent.team@gmail.com",
   "main": "App.tsx",
   "files": [
+    "assets",
     "patches",
     "src",
     "types",
