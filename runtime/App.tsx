@@ -1,3 +1,4 @@
-import App from './src/App';
-export default App;
 export * from './snackAssetResolver';
+export * from './src/utils/SnackUrlUtils';
+
+export { default } from './src/App';
