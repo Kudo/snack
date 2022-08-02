@@ -46,7 +46,6 @@
     "expo-random": "~12.3.0",
     "expo-splash-screen": "~0.16.1",
     "expo-status-bar": "~1.4.0",
-    "expo-updates": "~0.14.3",
     "path": "^0.12.7",
     "prop-types": "^15.7.2",
     "pubnub": "^7.2.0",
