@@ -12,13 +12,39 @@ export function isValidSnackUrl(url: string): boolean {
   );
 }
 
+/**
+ * Create a full Snack URL based on the snack identifier.
+ * The identifier can be 4 formats:
+ *   - `@bycedric/my-snack`
+ *   - `sdk.44.0.0-CHANNEL_UUID`
+ *   - `SAVE_UUID`
+ *   - `SAVE_UUID+CHANNEL_UUID`
+ */
+export function createSnackUrlFromSnackIdentifier(snackIdentifier: string): string {
+  return snackIdentifier.startsWith('@')
+    ? `https://exp.host/${snackIdentifier}`
+    : `https://exp.host/@snack/${snackIdentifier}`;
+}
+
 const channelRegex = /(\+|\/sdk\..*-)(.*$)/;
+
+/**
+ * Check if the Snack URL is bound to a short-lived session.
+ * This session is voided whenever the user closes the Snack website or embed.
+ */
+export function isEphemeralSnackUrl(snackUrl?: string): boolean {
+  if (snackUrl == null) {
+    return false;
+  }
+  const matches = snackUrl.match(channelRegex);
+  return matches != null && matches[1].length > 1;
+}
+
 export function extractChannelFromSnackUrl(url: string): string | null {
   const matches = url.match(channelRegex);
   return matches ? matches[2] : null;
 }
 
-const snackPrefix = '@snack/';
 const snackDomains = [
   'http://snack.expo.dev/',
   'https://snack.expo.dev/',
@@ -30,7 +56,7 @@ const snackDomains = [
 
 export function extractSnackIdentifierFromSnackUrl(urlString: string): string | null {
   try {
-    const snackDomain = snackDomains.find(domain => urlString.startsWith(domain));
+    const snackDomain = snackDomains.find((domain) => urlString.startsWith(domain));
     if (!snackDomain) {
       return null;
     }
@@ -38,11 +64,9 @@ export function extractSnackIdentifierFromSnackUrl(urlString: string): string | 
     const pathWithoutSlash = urlString.substring(snackDomain.length);
 
     let identifier = pathWithoutSlash;
-    if (identifier.includes('+')) { // check for a channel id
-      identifier = identifier.split('+')[0]
-    }
-    if (identifier.startsWith(snackPrefix)) {
-      identifier = identifier.slice(snackPrefix.length)
+    if (identifier.includes('+')) {
+      // check for a channel id
+      identifier = identifier.split('+')[0];
     }
     return identifier;
   } catch {
