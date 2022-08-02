@@ -1,6 +1,6 @@
 {
   "name": "@bycedric/snack-runtime",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.2",
   "description": "Playground for Expo!",
   "author": "exponent.team@gmail.com",
   "main": "App.tsx",
@@ -16,6 +16,7 @@
   "scripts": {
     "start": "expo start",
     "web": "expo start --web",
+    "postinstall": "yarn prepare-reanimated && patch-package",
     "lint": "eslint ./src ./types",
     "typescript": "tsc",
     "test": "jest",

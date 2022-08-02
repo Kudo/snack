@@ -32,7 +32,7 @@ import {
 const API_SERVER_URL_STAGING = 'https://staging.exp.host';
 const API_SERVER_URL_PROD = 'https://exp.host';
 
-type SnackState = 'loading' | 'finished';
+export type SnackState = 'loading' | 'finished';
 
 type Props = {
   /**
