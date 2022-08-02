@@ -4,14 +4,14 @@
 
 import { PixelRatio } from 'react-native';
 // @ts-ignore
-import { setCustomSourceTransformer } from 'react-native/Libraries/Image/resolveAssetSource';
-// @ts-ignore
 import AssetSourceResolver from 'react-native/Libraries/Image/AssetSourceResolver';
+// @ts-ignore
+import { setCustomSourceTransformer } from 'react-native/Libraries/Image/resolveAssetSource';
 
 export function registerSnackAssetSourceTransformer() {
-  setCustomSourceTransformer((resolver: any) => (
-    resolveSnackAssetSource(resolver.asset) || resolver.defaultAsset()
-  ));
+  setCustomSourceTransformer(
+    (resolver: any) => resolveSnackAssetSource(resolver.asset) || resolver.defaultAsset()
+  );
 }
 
 export function resolveSnackAssetSource(assetMeta: any) {
