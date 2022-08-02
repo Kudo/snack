@@ -16,7 +16,6 @@
   "scripts": {
     "start": "expo start",
     "web": "expo start --web",
-    "postinstall": "yarn prepare-reanimated && patch-package",
     "lint": "eslint ./src ./types",
     "typescript": "tsc",
     "test": "jest",
