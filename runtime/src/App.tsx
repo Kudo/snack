@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { activateKeepAwake } from 'expo-keep-awake';
 import { StatusBar } from 'expo-status-bar';
-import * as Updates from 'expo-updates';
 import * as React from 'react';
 import { AppState, PixelRatio, Dimensions, Platform } from 'react-native';
 
@@ -33,6 +32,8 @@ import {
 const API_SERVER_URL_STAGING = 'https://staging.exp.host';
 const API_SERVER_URL_PROD = 'https://exp.host';
 
+type SnackState = 'loading' | 'finished';
+
 type Props = {
   /**
    * The Snack URL it should load instead of showing a barcode scanner.
@@ -44,6 +45,17 @@ type Props = {
    *   - https://exp.host/@bycedric/great-pancake+QEeOWWsQIw
    */
   snackUrl?: string;
+
+  /**
+   * Callback for when the Snack wants to reload.
+   * This is triggered by the "reload now" button on the Snack website.
+   */
+  onSnackReload?: () => Promise<any>;
+
+  /**
+   * Callback for Snack state changes, like "loading" or "finished".
+   */
+  onSnackState?: (state: SnackState) => any;
 };
 
 type State = {
@@ -62,6 +74,13 @@ type State = {
 
 const RELOAD_URL_KEY = 'snack-reload-url';
 const ONE_MINUTE = 1000 * 60;
+
+let prevSnackState: SnackState;
+function notifyStateChange(props: Pick<Props, 'onSnackState'>, state: SnackState) {
+  if (state !== prevSnackState) {
+    props.onSnackState?.(state);
+  }
+}
 
 // The root component for Snack's viewer. Allows scanning a barcode to identify a Snack, listens for
 // updates and displays the Snack.
@@ -234,6 +253,8 @@ export default class App extends React.Component<Props, State> {
   // Open Snack session at given `url`, throw if bad URL or couldn't connect. All we need to do is
   // subscribe to the associated messaging channel, everything else is triggered by messages.
   _openUrl = (url: string): boolean => {
+    notifyStateChange(this.props, 'loading');
+
     const channel = extractChannelFromSnackUrl(url);
     if (channel) {
       this._currentUrl = url;
@@ -314,7 +335,7 @@ export default class App extends React.Component<Props, State> {
         })
       );
 
-      await Updates.reloadAsync();
+      await this.props.onSnackReload?.();
     } else {
       Logger.info("Got a reload request, but we don't have a URL");
     }
@@ -459,6 +480,8 @@ export default class App extends React.Component<Props, State> {
         Logger.warn('Code message received but no changes detected, ignoring');
         this.setState(() => ({ isLoading: false }));
       }
+
+      notifyStateChange(this.props, 'finished');
     });
   };
 
@@ -484,6 +507,8 @@ export default class App extends React.Component<Props, State> {
         Logger.warn('Code message received but no changes detected, ignoring');
         this.setState(() => ({ isLoading: false }));
       }
+
+      notifyStateChange(this.props, 'finished');
     });
   };
 
