@@ -1,6 +1,6 @@
 {
   "name": "@bycedric/snack-runtime",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0-alpha.2",
   "description": "Playground for Expo!",
   "author": "exponent.team@gmail.com",
   "main": "App.tsx",
