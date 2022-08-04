@@ -1,5 +1,5 @@
 {
-  "name": "@bycedric/snack-runtime",
+  "name": "snack-runtime",
   "version": "0.1.0-alpha.2",
   "description": "Playground for Expo!",
   "author": "exponent.team@gmail.com",
