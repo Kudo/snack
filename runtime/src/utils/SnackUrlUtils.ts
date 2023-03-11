@@ -26,7 +26,7 @@ export function createSnackUrlFromSnackIdentifier(snackIdentifier: string): stri
     : `https://exp.host/@snack/${snackIdentifier}`;
 }
 
-const channelRegex = /(\+|\/sdk\..*-)(.*$)/;
+const channelRegex = /(\+|\/sdk\..*-)([^?]*)\??(.*$)/;
 
 /**
  * Check if the Snack URL is bound to a short-lived session.
@@ -76,4 +76,27 @@ export function extractSnackIdentifierFromSnackUrl(urlString: string): string | 
 
 export function createSnackUrlFromHashId(hashId: string): string {
   return `https://exp.host/@snack/${hashId}`;
+}
+
+export function parseExperienceURL(
+  experienceURL: string
+): { channel: string; testTransport: string | null } | null {
+  const matches = experienceURL.match(channelRegex);
+  if (!matches) {
+    return null;
+  }
+  const channel = matches[2];
+
+  let testTransport = null;
+  const queryItems = (matches[3] ?? '').split(/&/g);
+  for (const item of queryItems) {
+    if (item.startsWith('testTransport=')) {
+      testTransport = item.substring(14);
+      break;
+    }
+  }
+  return {
+    channel,
+    testTransport,
+  };
 }

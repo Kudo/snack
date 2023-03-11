@@ -102,9 +102,15 @@ export default class App extends React.Component<Props, State> {
   async componentDidMount() {
     Profiling.checkpoint('`App.componentDidMount()` start');
 
+    let initialURL: string | null =
+      this.props.snackUrl ?? EXDevLauncher.manifestURL ?? (await Linking.getInitialURL());
+
     // Generate unique device-id
     const deviceId = await getDeviceIdAsync();
-    Messaging.init(deviceId);
+
+    // Initialize messaging transport
+    const testTransport = initialURL ? parseExperienceURL(initialURL)?.testTransport : null;
+    Messaging.init(deviceId, testTransport);
 
     // Initialize various things
     this._awaitingModulesInitialization = Modules.initialize();
@@ -138,11 +144,8 @@ export default class App extends React.Component<Props, State> {
       this._reloadModules();
     }
 
-    let initialURL: string | null = null;
     try {
       // Open from the initial URL if given
-      initialURL =
-        this.props.snackUrl ?? EXDevLauncher.manifestURL ?? (await Linking.getInitialURL());
 
       if (!initialURL) {
         // Check for any stored URLs for reload
