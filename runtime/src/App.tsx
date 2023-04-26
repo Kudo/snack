@@ -25,6 +25,7 @@ import * as Profiling from './Profiling';
 import UpdateIndicator from './UpdateIndicator';
 import { fetchCodeBySnackIdentifier, SnackApiCode } from './utils/ExpoApiUtils';
 import {
+  parseExperienceURL,
   extractChannelFromSnackUrl,
   extractSnackIdentifierFromSnackUrl,
 } from './utils/SnackUrlUtils';
