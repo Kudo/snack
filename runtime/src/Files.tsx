@@ -158,7 +158,9 @@ export const list = () => Object.keys(files);
  * Reset the current project files to only include the files from object.
  * This is useful to manually load the files from our API instead of PubNub.
  */
-export function updateProjectFiles(newFiles: Record<string, { type: 'CODE' | 'ASSET', contents: string }>) {
+export function updateProjectFiles(
+  newFiles: Record<string, { type: 'CODE' | 'ASSET'; contents: string }>
+) {
   for (const filePath in files) {
     delete files[filePath];
   }
@@ -174,4 +176,4 @@ export function updateProjectFiles(newFiles: Record<string, { type: 'CODE' | 'AS
       contents: !isAsset ? newFile.contents : undefined,
     };
   }
-};
+}

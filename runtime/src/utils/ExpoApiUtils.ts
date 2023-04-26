@@ -14,10 +14,12 @@ export type SnackApiCode = {
     sdkVersion: string;
     description: string;
     dependencies: Record<string, string>;
-  }
-}
+  };
+};
 
-export async function fetchCodeBySnackIdentifier(snackIdentifier: string): Promise<SnackApiCode | null> {
+export async function fetchCodeBySnackIdentifier(
+  snackIdentifier: string
+): Promise<SnackApiCode | null> {
   try {
     const res = await fetch(`https://exp.host/--/api/v2/snack/${snackIdentifier}`, {
       method: 'GET',
