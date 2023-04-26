@@ -5,7 +5,10 @@ import type { Socket } from 'socket.io-client';
 import * as Logger from '../Logger';
 import type { Device, RuntimeMessagePayload, RuntimeTransport } from './RuntimeTransport';
 
-const SNACKPUB_URL_STAGING = 'https://staging-snackpub.expo.dev';
+// FIXME: Right now always using production snackpub server for custom snack-runtime.
+// We should find a way to support both custom snack-runtime and formal snack-runtime serving from EAS Update.
+// const SNACKPUB_URL_STAGING = 'https://staging-snackpub.expo.dev';
+const SNACKPUB_URL_STAGING = 'https://snackpub.expo.dev';
 const SNACKPUB_URL_PRODUCTION = 'https://snackpub.expo.dev';
 
 interface ServerToClientEvents {
