@@ -17,11 +17,18 @@ export type SnackApiCode = {
   };
 };
 
+/**
+ * Fetches a snack from the Snack API.
+ * @param snackIdentifier: The ID of snack, could be either in `@snack/<hashId>` or `@<username>/<hashId>` format.
+ */
 export async function fetchCodeBySnackIdentifier(
   snackIdentifier: string
 ): Promise<SnackApiCode | null> {
+  const snackId = snackIdentifier.startsWith('@snack/')
+    ? snackIdentifier.substring('@snack/'.length)
+    : snackIdentifier;
   try {
-    const res = await fetch(`https://exp.host/--/api/v2/snack/${snackIdentifier}`, {
+    const res = await fetch(`https://exp.host/--/api/v2/snack/${snackId}`, {
       method: 'GET',
       headers: {
         'Snack-Api-Version': '3.0.0',
@@ -29,7 +36,7 @@ export async function fetchCodeBySnackIdentifier(
     });
     return await res.json();
   } catch (err) {
-    Logger.error(`Failed fetch snack with identifier: ${snackIdentifier}`, err);
+    Logger.error(`Failed fetch snack with identifier: ${snackId}`, err);
   }
 
   return null;
