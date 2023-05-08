@@ -374,9 +374,12 @@ export default class App extends React.Component<Props, State> {
   };
 
   _uploadPreviewToS3 = async (asset: string, height: number, width: number) => {
+    // FIXME: Right now always using production snackpub server for custom snack-runtime.
+    // We should find a way to support both custom snack-runtime and formal snack-runtime serving from EAS Update.
     const url = `${
       Constants.manifest?.extra?.cloudEnv !== 'production'
-        ? API_SERVER_URL_STAGING
+        // ? API_SERVER_URL_STAGING
+        ? API_SERVER_URL_PROD
         : API_SERVER_URL_PROD
     }/--/api/v2/snack/uploadPreview`;
     const body = JSON.stringify({ asset, height, width });

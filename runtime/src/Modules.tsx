@@ -268,9 +268,12 @@ const fetchPipeline = async (load: Load) => {
           );
         } else {
           // In development, try fetching from staging cloudfront first
+          // FIXME: Right now always using production snackpub server for custom snack-runtime.
+          // We should find a way to support both custom snack-runtime and formal snack-runtime serving from EAS Update.
           const cloudFrontUrls =
             Constants.manifest?.extra?.cloudEnv !== 'production'
-              ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
+              // ? [SNACKAGER_CDN_STAGING, SNACKAGER_CDN_PROD]
+              ? [SNACKAGER_CDN_PROD]
               : [SNACKAGER_CDN_PROD];
           for (const url of cloudFrontUrls) {
             const fetchFrom = `${url}/${handle}-${Platform.OS}/bundle.js`;
